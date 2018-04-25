@@ -1,0 +1,384 @@
+% -*- coding: utf-8 -*-
+% !TEX program = xelatex
+
+% 1st line comment is Emacs editor's encoding directive
+% 2nd line is the `magic comment' for those who use plugin 'LaTeXTools' in Atom, sublime; or those who use VS Code + LaTeX workshop.
+
+\documentclass[a4paper,UTF8,zihao = -4]{ctexart} % Compile with xelatex before save your .tex file with UTF-8 encoding.
+
+\ctexset{abstractname = {简\quad 介}}
+
+
+% Math setup
+\usepackage{amsmath,amssymb} % Do not include amssymb while you choose other math font setup, there might be clash!
+
+% Units
+\usepackage{siunitx} % Not only units but also providing loads of useful macros to save the typesetting effort.
+
+\usepackage[dvipsnames]{xcolor}
+\definecolor{lightmilkyellow}{cmyk}{0,0,0.1,0}
+
+% Use tcolorbox to prefify code demonstration
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable,documentation}
+\tcbset{%
+  docexample/.style={colframe=Maroon,colback=lightmilkyellow,enhanced jigsaw,breakable=true,beforeafter skip = 2.5ex plus 0.2ex minus 0.2ex}%
+}
+
+\usepackage[version = 4]{mhchem} % 'version = 4' to make sure full features
+\usepackage{chemmacros}
+\chemsetup{modules = all} % Automatically including all modules for chemmacros package, like chemformula which can also be used independently as a package.
+
+\usepackage{bohr}
+\usepackage{modiagram}
+\usepackage{endiagram}
+% The following two is for chemical reaction scheme or mechanism.
+\usepackage{chemfig} % Chemical structure formula, reaction schemes and mechanism; this package is based on PGF/TikZ.
+\usepackage{chemstr}
+
+\usepackage{pstricks}
+\usepackage{pst-labo}
+
+\usepackage{hologo}
+
+\providecommand{\tikzlg}{PGF/T\textit{i}kZ}
+\newcommand{\tkznm}{T\textit{i}kZ}
+
+
+
+
+
+
+\title{\textsf{\LaTeX}\heiti 化学宏包快速指南}
+\author{\fangsong 鸣镝}
+\date{\oldstylenums{2018/04/23}}
+
+%%%%========= The end of preamble=========%%%%
+
+\begin{document}
+
+\pagecolor{lightmilkyellow}
+
+\maketitle % make sure it after \title ,\author and \date
+
+\begin{abstract} 化学不适合用\LaTeX{}排版——这是很多化学，化工方面从业者对于\LaTeX{}刻板的印象，其根据在于\LaTeX{}繁琐的代码无法高效完成各种结构式，化学方程式，反应机理等的排版需要。然而\TeX{}语言令人惊叹的扩展性和定制能力，提供了多种可能性。\TeX{}社区这些年涌现出众多有用的化学宏包，提供简单易用的命令和接口就能完成复杂的化学式排版。本文做一个介绍。
+\end{abstract}
+
+\section{环境准备}
+\label{sec:envimtPrep}
+
+使用笔者下面描述的这些宏包，你至少需要\TeX{} Live 2017及以上的\TeX{}发行版，一是因为这是本文最初撰写的时间，二是因为许多我们要用到的宏包，在14年之前甚至还不存在。
+
+对于\TeX{} Live和Mac\TeX{}用户，如果是最新，独立二进制安装版，已经选择完整安装（full）的用户已经在本地有了这些宏包；一开始选基本安装（basic）的用户，可以用宏包管理器\textsf{tlmgr}进行安装，具体用法可以去阅读\textsf{tlmgr}的使用手册。对于旧版本\TeX{} Live用户，如果只安装了基本的宏包，请上CTAN网站手动下载宏包并安装在TDS目录中。
+
+MiK\TeX{}用户请使用其宏包管理器\textsf{Package Mananger (Admin)}联网，选远程仓库镜像，搜索，下载，并安装这些宏包。MiK\TeX{}官网有介绍这些操作步骤。
+
+本文假设你了解基本的~\LaTeXe{}~用法，可以独立编译制作简单的文档。下面的示例代码中有中文作为标签，因此这里也假设你知道中文在~\LaTeXe{}~中的支持方式。
+
+文中选用\textsf{tcolorbox}来定制代码演示环境，一种是只有代码：
+
+\begin{dispListing}
+% 这是LaTeX中的注释
+\usepackage{tcolorbox} % 引入某宏包  
+\end{dispListing}
+
+另一种同时展示源码和显示效果，用虚线分割，虚线上是源码，虚线下是输出效果：
+
+\begin{dispExample}
+输入一个公式看一下效果：\[ \int _a^b f(x)dx = \mathcal{F}(b) - \mathcal{F}(a) \]
+\end{dispExample}
+
+\noindent 可以注意到，如果代码特别长，在展示盒子中挤到了下一行，而实际编辑器中还没有用换行符切换到下一行，你会在代码盒子中看见一对弧形箭头，表示这两段其实是在一行里。
+
+\section{上手快的常用宏包}
+\label{sec:elementaryUsage}
+
+作为一个和化学有关的学术工作者，或中学教师，最基本的需要是敲数学公式，能够表示元素、离子、自由基和常见化合物符号的命令，还有基本的化学反应方程式。
+
+\subsection{数学公式与\AmS{}宏包集合}
+\label{sec:mathPkg}
+
+\LaTeX{}的数学排版能力声名远播。默认的原生\LaTeX{}可以排版简单的公式和希腊字母，一部分数学符号，即使不引入任何宏包，也能在数学模式下排版简单的公式：
+
+
+\begin{dispExample}
+我们有个理想气体行内公式 $ pV = nRT $，一个热力学行间公式
+\[
+  \Delta H = \Delta G + T\Delta S
+\]
+以及编号的相律行间公式
+\begin{equation}
+  \Phi + f = S + 2
+\end{equation}
+\end{dispExample}
+
+\LaTeX{}并没有提供命令访问所有默认数学字体的全部符号，且我们需要排更复杂的公式，肯定需要引入最常用的数学宏包来提供支持。
+\begin{dispListing}
+% 导言栏使用——你应该知道啥叫“导言栏”（preamble）吧?!
+\usepackage{amsmath}
+\usepackage{amssymb}
+\end{dispListing}
+这里的\textsf{amssymb}宏包让你访问默认数学字体Computer Modern Math中丰富的符号，但是如果你要更换数学字体，请不要引入，以免出现冲突。
+
+然后就可以去排复杂的式子了：
+\begin{dispExample}
+一个没有编号的行间公式，van der Waal 公式：
+\[
+  \left( p + \dfrac{a}{V_m^2} \right)(V_m - b) = RT
+\]
+其中，$V_m$是摩尔体积。又如Clapeyron公式。
+\begin{equation}
+  \ln\dfrac{p_2}{p_1}=\dfrac{\Delta _{vap}H_m}{R}\left(\dfrac{1}{T_1} - \dfrac{1}{T_2}\right)   \tag{Famous One's Formula}
+\end{equation}
+由热力学的Maxwell关系式，可知
+\begin{equation}
+  \left(\dfrac{\partial S}{\partial V}\right)_T = \left(\dfrac{\partial p}{\partial T}\right)_V
+\end{equation}
+\end{dispExample}
+倒数第二个个公式中，用\textsf{amsmath}宏包提供的~\verb|\tag|~命令手工对其命名成Famous One's Formula，也可以用来手工编号。
+
+关于数学宏包的用法，请去阅读\textsf{amsmath}宏包的手册。
+
+
+\subsection{\textsf{siunitx}与单位}
+\label{sec:unitPkg}
+
+一般在计算公式中，物理量字母，还有数学变量等，应排版为倾斜的意大利体（\textit{italic}），而单位则应排成正体（upright），但如果在公式环境中反复切换字体，极为不便。而如果排版有上下标的复合单位，如~\si{\joule\per\mole\per\kelvin}，那就更麻烦了。所以我们需要
+
+\begin{dispListing}
+% 导言栏
+\usepackage{siunitx}
+\end{dispListing}
+它不仅提供可同时在数学环境内外用的命令~\docAuxCommand{SI}\brackets{\meta{number}}\brackets{\meta{unit}}，还提供大量有用的宏，这里只举很少的例子
+
+\begin{dispExample}
+% 下面的 \quad 作用只是空开一点距离。
+\num{1.4e-64}\quad \ang{30;15;27}\quad \si{m^{-2}}\quad \SI{37}{\celsius}\quad \SI{5}{\angstrom}\quad \SI{3.1e-6}{\micro\meter}
+\[
+  \Delta S = \dfrac{Q_r}{T} = \dfrac{\SI{5.74}{\kilo\joule}}{\SI{300}{K}} = \SI{19.2}{\joule\per\kelvin}
+\]
+这里也可以把答案写成单位间由乘积来连接的形式：
+\SI[inter-unit-product = \ensuremath{{}\cdot{}}]{19.2}{\joule\per\kelvin}
+\end{dispExample}
+
+国内排版的教材，单位多采用上面最后一种单位形式，用中点（middle dot）来连接几个单位，表示单位幂的乘积。（很多用国内出版社用全角的middle dot，非常难看），可以在导言栏用~\docAuxCommand{sisetup}\brackets{\meta{key} = \meta{value}}来全局地加以设置：
+
+\begin{dispListing}
+% 导言栏
+\usepackage{situnix}
+\sisetup{ inter-unit-product = \ensuremath{{}\cdot{}} }
+\end{dispListing}
+
+然后每次用单位命令都会得到~\si[inter-unit-product = \ensuremath{{}\cdot{}}]{\joule\per\mole\per\kelvin}，这样的形式了。但还要注意，如果你使用\textsf{unicode-math}宏包为你的文档配置OpenType数学字体，这个middle dot的符号命令就是~\verb|\cdotp|，而不是~\verb|\cdot|，参见\textsf{unimath-symbols}文档。
+
+关于\textsf{siunitx}宏包更多的用法，请去阅读其用户手册。
+
+\paragraph{关于宏包作者}
+
+值得一提的是，\textsf{siunitx}宏包的作者Joseph Wright是大学里的化学工作者，写了大量和化学有关的宏包。这其中，包括为美国化学学会（American Chemisty Society，ACS）和英国皇家化学学会（Royal Society of Chemistry, RSC）撰写旗下学术期刊的\LaTeX{}模板，还配套写了他们参考文献格式\textsf{biblatex}实现的文件。ACS的模板和RSC的模板，还有它们的\textsf{biblatex}的style文件，既可以在它们的官网下载，同时它们全都已被\TeX\ Live 和 MiK\TeX{}收录，安装了完整版（full）可直接调用；只装基本版（basic）也能用包管理器下到。
+
+Joseph Wright精力旺盛，在\LaTeX{}社区非常活跃多产，不仅仅是化学宏包与模板，他还在许多\LaTeX{}方面做着重要基础工作。是很多宏包的现任维护和合作维护者，接替Till Tandau维护着\textsf{beamer}，和Philipp Lehman一起维护\textsf{etoolbox}和\textsf{biblatex}两个有重要用途的宏包。由于他卓越的能力与贡献，很自然地受邀成为\LaTeX{}3项目组的核心成员，共同开发下一个版本的\LaTeX{}内核和编程语言。
+\subsection{化学方程式}
+\label{sec:mhchem}
+
+这个宏包很可能是你接触到的第一个化学宏包。
+
+化合物分子式和化学方程式很显然需要借助数学模式下的上下标功能，还有箭头等符号来来表示一个分子中，某个元素原子所占的数量，但是数学环境下默认的都是\textit{italic}字体，而一般印刷的化合物，很明显是upright正体，需要对这方面做一系列调整，于是\textsf{mhchem}宏包就应运而生了。
+
+\begin{dispListing}
+% 导言栏
+\usepackage[version = 4]{mhchem}
+\end{dispListing}
+
+之所以要指定键值选项~\verb|version = 4|，是因为经过很长时间的开发，宏包无法保证默认情况下所有的兼容性，所以提供一个~\verb|version|~的键（\meta{key}），来让用户自己设定版本（\meta{key} = \meta{value}），其实不同的version之间仅有微小的差异，不过要使用所有的功能特点，还是为其指定现在的版本4。小于4的版本，都属于兼容选项，为老用户代码可复用性提供支持。
+
+下面是一些简单的示例：
+
+\begin{dispExample}
+% 下面的 \quad 作用只是空开一点距离。
+\ce{CrO4^2-}\quad \ce{H2O}\quad \ce{CuSO4.5H2O}\quad \ce{^{227}_{90}Th+}
+\ce{A\bond{-}B\bond{=}C\bond{#}D}
+\ce{Reactant <--> Product}\quad \ce{half <=> arrow}
+\[
+  \ce{A + B ->[\text{点燃}][\Delta] C ^ + D (v)}
+\]
+\begin{equation}
+  \ce{H+(aq) + HCO3+(aq) -> H2O(l) + CO2(g)}
+\end{equation}
+\end{dispExample}
+
+\section{更多化学式}
+\label{sec:advanced}
+
+\textsf{mhchem}提供的化学式可以满足最为常见，基本的化学式。但是如果更多一些呢？比如Lewis结构式，Newman投影式怎么样？自由基？能不能将离子右上角的电荷表示成带圈的那种呢？我能不能画出氧化还原反应转移电子的箭头呢？
+
+\subsection{\textsf{chemmacros}宏包套件}
+\label{sec:moreSymbEq}
+
+\subsection{自动生成元素信息\textsf{elements}宏包}
+\label{sec:elements}
+
+
+\section{一图胜千言}
+\label{sec:graphSketch}
+
+
+
+
+\subsection{用\textsf{bohr}画玻尔模型}
+\label{sec:bohr}
+
+国内初中化学，教授电子结构模型，都是用圈表示原子核，在圈内用带加号的数字$+2$表示核电荷数。然后在左边画弧，一层层的弧表示电子层（一般只教主层，即main shell，不管副层，即subshell），弧中间用数字断开，表示该层有几个电子。
+
+国外直接用Lutherford-Bohr的行星模型，简称“玻尔模型”。Clemens Niederberger为此写了\textsf{bohr}宏包来用命令快速生成原子的玻尔模型图。这个宏包基于\tikzlg{}。
+
+\begin{dispListing}
+% 导言栏
+\usepackage{bohr}
+\end{dispListing}
+
+使用其提供的~\docAuxCommand{bohr}~命令直接画图，\docAuxCommand{setbohr}\brackets{\meta{key} = \meta{value}}~命令来控制其行为。
+
+\begin{dispExample}
+\bohr{1}{H}
+\setbohr{ atom-style = {\footnotesize\sffamily\ch} }
+\bohr{10}{Na+}
+\end{dispExample}
+
+表示电子层的圈可以改为虚线，可以自定义电子层间的间距。这个宏包目前功能不算很复杂，可以去读它的用户手册学习使用。
+
+\subsection{用\textsf{modiagram}画分子轨道图}
+\label{sec:modiagram}
+
+分子轨道理论（Molecular Orbital theory，即MO理论）是理论化学家们提出的模型，简化直接求解薛定谔方程的不便，是无机和有机化学重要的理论基础。一般大一学普通化学（或无机化学）都会接触到。
+
+Clemens Niederberger为此写了一个\textsf{modiagram}宏包。他是这么表示的：一开始和其他人一样，不知道怎么画，去 stackexchange 的\LaTeX{}问答去搜索，复制粘帖别人提供答案，最初用的那个答案使用\tkznm{}画的。之后由于经常要画这玩意儿，受不了一遍遍去找原来的代码，复制粘帖，那还不如自己写一个宏包，编好文档，方便你我他。其实多数宏包何尝不是这样诞生的呢？觉得\LaTeX{}麻烦吧？写个宏包去简化排版一类东西的过程吧。
+
+该宏包基于\tikzlg{}，直接导入使用。
+
+\begin{dispListing}
+% 导言栏
+\usepackage{modiagram}  
+\end{dispListing}
+
+下面简单列举一个使用方法.分子轨道的绘图代码都放在~\docAuxEnvironment{MOdiagram}~环境中（别忘了\LaTeX{}中大小写敏感，计算机语言要注意拼写正确）使用。
+
+\begin{dispExample}
+\MOsetup{style = fancy, distance = 6.5cm, AO-width = 15pt, labels}
+\begin{MOdiagram}
+  \atom[N]{left}{%
+    2p = {0;up,up,up}%
+ }
+ \atom[O]{right}{%
+   2p = {2;pair,up,up}%
+ }
+ \molecule[NO]{%
+   2pMO = {1.8,.4;pair,pair,pair,up},
+   color = { 2piy* =red }%
+ }
+\EnergyAxis[title = Energy]
+\end{MOdiagram}
+\end{dispExample}
+
+虽然这宏包名字是\textsf{modiagram}，但显然可以同样胜任元素电子轨道排布式的图示，原子轨道理论，无机化学中，配位化学理论的Crystal Field Theory和Ligand Field Theory，有机化学中的前线轨道理论（Frontend Orbital Theory），等等。
+
+\subsection{画反应能量变化图}
+\label{sec:energylevel}
+
+典型代表，就是物理化学中的反应焓变示意图，还有反应动力学（Kinetics）中，过渡态理论解释活化能的大小的示意图。
+
+这里依然使用Clemens Niederberger（这货太有才了是不是）的\textsf{endiagram}宏包。
+
+\begin{dispListing}
+% 导言栏
+\usepackage{endiagram}  
+\end{dispListing}
+
+在该宏包基于\tikzlg{}，和Niederberger其它宏包类似，都提供进一步调用\tkznm{}代码的接口。利用提供的~\docAuxEnvironment{endiagram}~环境中，绘出能量状态伴随浓度、反应进度等的变化趋势，标出活化能$E_a$。
+
+\begin{dispExample}
+\begin{endiagram}
+  \ENcurve[step = 4]{1,6,0}
+  \ShowEa[label,label-pos=.3]
+\end{endiagram}
+\end{dispExample}
+
+图中的$\xi$为反应进度（extent of reaction），$E$表示Energy，即能量。
+
+\subsection{\textsf{pst-labo}画实验室装置}
+\label{sec:pst-labo}
+
+这一节介绍使用\textsf{pst-labo}绘制实验装置，它属于一个功能强大的绘图语言PSTricks下的一个子模块。
+
+\begin{dispListing}
+% 导言栏
+\usepackage{pstricks} % 引入 PSTricks 的基本宏包
+\usepackage{pst-labo} % 引入 pst-labo 实验室装置模块包
+\end{dispListing}
+
+需要注意的是，由于PSTricks完全基于一门叫“PostScript”的强大语言，因此需要调用一些图形驱动，一些情况下要做额外配置。上面的宏包引入命令仅适用于\hologo{XeLaTeX}编译的情况，如果是~\hologo{pdfLaTeX}~或~\hologo{LuaLaTeX}~需要给\textsf{pstricks}宏包加上\texttt{pdf}选项：
+
+\begin{dispListing}
+\usepackage[pdf]{pstricks}
+\end{dispListing}
+
+\noindent 并且在编译时使用~\texttt{-shell-escape}参数。所以使用\textsf{PSTricks}，目前来说还是在\hologo{XeLaTeX}下最为方便。
+
+然后就可以愉快的画图了，PSTricks绘图无需任何专门的绘图环境，直接使用已经在子模块中定义好的图形代码：
+
+\begin{dispExample}
+\psset{unit = 0.5cm,glassType = becher}
+\pstTubeEssais[etiquette]
+\pstTubeEssais[substance = \pstBullesChampagne,glassType=fioleJauge]
+\pstTubeEssais[substance = \pstFilaments{red},glassType = flacon]
+\pstTubeEssais[substance = \pstBilles,glassType = ballon]
+\pstEntonnoir[substance = \pstBULLES{white},glassType = erlen]
+\pstEprouvette[niveauLiquide2=100]
+\vspace{3ex} % 空开一段竖直距离
+\pstDosage[glassType = becher,phmetre = true]
+\end{dispExample}
+
+这个模块里可以做简单的瓶瓶罐罐，漏斗，滴管，量筒带搅拌磁子的搅拌器，喷灯，玻璃直行精馏柱等。
+
+\begin{dispExample}
+\psset{unit=0.5cm}
+\pstChauffageTube[%
+  becBunsen,
+  glassType=ballon,
+  niveauLiquide1=20,
+  aspectLiquide1=Diffusion,%
+  pince%
+]
+\pstDistillation
+\end{dispExample}
+
+\section{处理有机化学反应}
+\label{sec:organic}
+
+这里单独拉出一节来阐述
+
+\subsection{可选的宏包汇总}
+\label{sec:OrganSummary}
+
+首先介绍一下老牌的\XyMTeX{}宏包.
+
+\section*{小结}
+\label{sec:conclusion}
+
+看到这里，你也许会因为好奇去查看这些宏包的使用手册，然后又是一声长叹，他们功能太复杂，用户手册一个比一个厚，将它们融会贯通，熟练使用，又要付出学习成本。可你只想毕业，迅速把稿子投出去。
+
+\section*{一些补充}
+\label{sec:miscellaneous}
+
+
+\subsection*{如何快速查阅宏包手册}
+\label{sec:texdoc}
+
+
+
+\subsection*{关于\XyMTeX{}宏包手册} % \XyMTeX is not robust, so use \protect
+\label{sec:xymtexDoc}
+\XyMTeX{}宏包虽然一直被\TeX{} Live~收录，可以直接使用。奇怪的是，其用户手册居然没有被独立安装的\TeX{} Live~安装包所囊括。无奈只能手动下载安装，
+
+
+\end{document}
