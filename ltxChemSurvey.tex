@@ -61,7 +61,7 @@
 
 \maketitle % make sure it after \title ,\author and \date
 
-\begin{abstract} 化学不适合用\LaTeX{}排版——这是很多化学，化工方面从业者对于\LaTeX{}刻板的印象，其根据在于\LaTeX{}繁琐的代码无法高效完成各种结构式，化学方程式，反应机理等的排版需要。然而\TeX{}语言令人惊叹的扩展性和定制能力，提供了多种可能性。\TeX{}社区这些年涌现出众多有用的化学宏包，提供简单易用的命令和接口就能完成复杂的化学式排版。本文做一个介绍。
+\begin{abstract} 化学不适合用\LaTeX{}排版——这是很多化学，化工方面从业者对于\LaTeX{}刻板的印象，其根据在于\LaTeX{}繁琐的代码无法高效完成各种结构式，化学方程式，反应机理等的排版需要。然而\TeX{}语言令人惊叹的扩展性和定制能力，提供了多种可能性。\TeX{}社区这些年涌现出众多有用的化学宏包，提供简单易用的命令和接口就能完成复杂的化学式排版。本文做一个简明汇总。
 \end{abstract}
 
 \section{环境准备}
@@ -78,8 +78,7 @@ MiK\TeX{}用户请使用其宏包管理器\textsf{Package Mananger (Admin)}联�
 文中选用\textsf{tcolorbox}来定制代码演示环境，一种是只有代码：
 
 \begin{dispListing}
-% 这是LaTeX中的注释
-\usepackage{tcolorbox} % 引入某宏包  
+\usepackage{tcolorbox} % 这是LaTeX中的注释，这里引入宏包  
 \end{dispListing}
 
 另一种同时展示源码和显示效果，用虚线分割，虚线上是源码，虚线下是输出效果：
@@ -112,10 +111,9 @@ MiK\TeX{}用户请使用其宏包管理器\textsf{Package Mananger (Admin)}联�
 \end{equation}
 \end{dispExample}
 
-\LaTeX{}并没有提供命令访问所有默认数学字体的全部符号，且我们需要排更复杂的公式，肯定需要引入最常用的数学宏包来提供支持。
+\LaTeX{}并没有提供命令访问所有默认数学字体的全部符号，且我们需要排更复杂的公式，必须引入最常用，以\textsf{amsmath}为代表的~\AmS{}数学宏包套件来提供支持。
 \begin{dispListing}
-% 导言栏使用——你应该知道啥叫“导言栏”（preamble）吧?!
-\usepackage{amsmath}
+\usepackage{amsmath} % 导言栏使用——你应该知道啥叫“导言栏”（preamble）吧?!
 \usepackage{amssymb}
 \end{dispListing}
 这里的\textsf{amssymb}宏包让你访问默认数学字体Computer Modern Math中丰富的符号，但是如果你要更换数学字体，请不要引入，以免出现冲突。
@@ -128,14 +126,14 @@ MiK\TeX{}用户请使用其宏包管理器\textsf{Package Mananger (Admin)}联�
 \]
 其中，$V_m$是摩尔体积。又如Clapeyron公式。
 \begin{equation}
-  \ln\dfrac{p_2}{p_1}=\dfrac{\Delta _{vap}H_m}{R}\left(\dfrac{1}{T_1} - \dfrac{1}{T_2}\right)   \tag{Famous One's Formula}
+  \ln\dfrac{p_2}{p_1}=\dfrac{\Delta _{vap}H_m}{R}\left(\dfrac{1}{T_1} - \dfrac{1}{T_2}\right)   \tag{Clapeyron's Equation}
 \end{equation}
 由热力学的Maxwell关系式，可知
 \begin{equation}
   \left(\dfrac{\partial S}{\partial V}\right)_T = \left(\dfrac{\partial p}{\partial T}\right)_V
 \end{equation}
 \end{dispExample}
-倒数第二个个公式中，用\textsf{amsmath}宏包提供的~\verb|\tag|~命令手工对其命名成Famous One's Formula，也可以用来手工编号。
+倒数第二个个公式中，用\textsf{amsmath}宏包提供的~\verb|\tag|命名，也可以用来手工编号。
 
 关于数学宏包的用法，请去阅读\textsf{amsmath}宏包的手册。
 
@@ -146,8 +144,7 @@ MiK\TeX{}用户请使用其宏包管理器\textsf{Package Mananger (Admin)}联�
 一般在计算公式中，物理量字母，还有数学变量等，应排版为倾斜的意大利体（\textit{italic}），而单位则应排成正体（upright），但如果在公式环境中反复切换字体，极为不便。而如果排版有上下标的复合单位，如~\si{\joule\per\mole\per\kelvin}，那就更麻烦了。所以我们需要
 
 \begin{dispListing}
-% 导言栏
-\usepackage{siunitx}
+\usepackage{siunitx} % 导言栏使用命令
 \end{dispListing}
 它不仅提供可同时在数学环境内外用的命令~\docAuxCommand{SI}\brackets{\meta{number}}\brackets{\meta{unit}}，还提供大量有用的宏，这里只举很少的例子
 
@@ -164,8 +161,7 @@ MiK\TeX{}用户请使用其宏包管理器\textsf{Package Mananger (Admin)}联�
 国内排版的教材，单位多采用上面最后一种单位形式，用中点（middle dot）来连接几个单位，表示单位幂的乘积。（很多用国内出版社用全角的middle dot，非常难看），可以在导言栏用~\docAuxCommand{sisetup}\brackets{\meta{key} = \meta{value}}来全局地加以设置：
 
 \begin{dispListing}
-% 导言栏
-\usepackage{situnix}
+\usepackage{situnix} % 导言栏使用命令
 \sisetup{ inter-unit-product = \ensuremath{{}\cdot{}} }
 \end{dispListing}
 
@@ -186,8 +182,7 @@ Joseph Wright精力旺盛，在\LaTeX{}社区非常活跃多产，不仅仅是�
 化合物分子式和化学方程式很显然需要借助数学模式下的上下标功能，还有箭头等符号来来表示一个分子中，某个元素原子所占的数量，但是数学环境下默认的都是\textit{italic}字体，而一般印刷的化合物，很明显是upright正体，需要对这方面做一系列调整，于是\textsf{mhchem}宏包就应运而生了。
 
 \begin{dispListing}
-% 导言栏
-\usepackage[version = 4]{mhchem}
+\usepackage[version = 4]{mhchem} % 导言栏使用
 \end{dispListing}
 
 之所以要指定键值选项~\verb|version = 4|，是因为经过很长时间的开发，宏包无法保证默认情况下所有的兼容性，所以提供一个~\verb|version|~的键（\meta{key}），来让用户自己设定版本（\meta{key} = \meta{value}），其实不同的version之间仅有微小的差异，不过要使用所有的功能特点，还是为其指定现在的版本4。小于4的版本，都属于兼容选项，为老用户代码可复用性提供支持。
@@ -228,21 +223,29 @@ Joseph Wright精力旺盛，在\LaTeX{}社区非常活跃多产，不仅仅是�
 \subsection{用\textsf{bohr}画玻尔模型}
 \label{sec:bohr}
 
-国内初中化学，教授电子结构模型，都是用圈表示原子核，在圈内用带加号的数字$+2$表示核电荷数。然后在左边画弧，一层层的弧表示电子层（一般只教主层，即main shell，不管副层，即subshell），弧中间用数字断开，表示该层有几个电子。
+国内初中化学，教
+电子结构模型，都是用圈表示原子核，在圈内用带加号的数字$+2$表示核电荷数。然后在左边画弧，一层层的弧表示电子层（一般只教主层，即main shell，不管副层，即subshell），弧中间用数字断开，表示该层有几个电子。
 
 国外直接用Lutherford-Bohr的行星模型，简称“玻尔模型”。Clemens Niederberger为此写了\textsf{bohr}宏包来用命令快速生成原子的玻尔模型图。这个宏包基于\tikzlg{}。
 
 \begin{dispListing}
-% 导言栏
-\usepackage{bohr}
+\usepackage{bohr} % 导言栏使用
 \end{dispListing}
 
 使用其提供的~\docAuxCommand{bohr}~命令直接画图，\docAuxCommand{setbohr}\brackets{\meta{key} = \meta{value}}~命令来控制其行为。
 
 \begin{dispExample}
 \bohr{1}{H}
+% 更改字体，直接使用 chemformula 的格式输入元素；字体改为无衬线
 \setbohr{ atom-style = {\footnotesize\sffamily\ch} }
 \bohr{10}{Na+}
+\setbohr{%
+  shell-options-add = dashed, % 将电子层轨道改为虚线；
+  shell-dist        = .85em,  % 轨道间距设为 0.85em；
+  insert-missing              % 缺省模式，自动推算电子数量
+}
+\bohr{7}{}
+\bohr{}{Ca}
 \end{dispExample}
 
 表示电子层的圈可以改为虚线，可以自定义电子层间的间距。这个宏包目前功能不算很复杂，可以去读它的用户手册学习使用。
@@ -252,13 +255,12 @@ Joseph Wright精力旺盛，在\LaTeX{}社区非常活跃多产，不仅仅是�
 
 分子轨道理论（Molecular Orbital theory，即MO理论）是理论化学家们提出的模型，简化直接求解薛定谔方程的不便，是无机和有机化学重要的理论基础。一般大一学普通化学（或无机化学）都会接触到。
 
-Clemens Niederberger为此写了一个\textsf{modiagram}宏包。他是这么表示的：一开始和其他人一样，不知道怎么画，去 stackexchange 的\LaTeX{}问答去搜索，复制粘帖别人提供答案，最初用的那个答案使用\tkznm{}画的。之后由于经常要画这玩意儿，受不了一遍遍去找原来的代码，复制粘帖，那还不如自己写一个宏包，编好文档，方便你我他。其实多数宏包何尝不是这样诞生的呢？觉得\LaTeX{}麻烦吧？写个宏包去简化排版一类东西的过程吧。
+Clemens Niederberger为此写了一个\textsf{modiagram}宏包。他是这么表示的：一开始和其他人一样，不知道怎么画，到\textsf{stackexachange}问答网站的\LaTeX{}区去搜索，复制粘帖别人回答的绘图代码。最初用的那个答案使用\tkznm{}画的。之后由于经常要画这玩意儿，受不了一遍遍去找原来的代码，复制粘帖，那还不如自己写一个宏包，编好文档，方便你我他。其实，多数宏包何尝不是这样诞生的呢？觉得\LaTeX{}麻烦吧？写个宏包去简化排版某一类东西的过程吧。
 
 该宏包基于\tikzlg{}，直接导入使用。
 
 \begin{dispListing}
-% 导言栏
-\usepackage{modiagram}  
+\usepackage{modiagram} % 导言栏使用  
 \end{dispListing}
 
 下面简单列举一个使用方法.分子轨道的绘图代码都放在~\docAuxEnvironment{MOdiagram}~环境中（别忘了\LaTeX{}中大小写敏感，计算机语言要注意拼写正确）使用。
@@ -282,7 +284,7 @@ Clemens Niederberger为此写了一个\textsf{modiagram}宏包。他是这么表
 
 虽然这宏包名字是\textsf{modiagram}，但显然可以同样胜任元素电子轨道排布式的图示，原子轨道理论，无机化学中，配位化学理论的Crystal Field Theory和Ligand Field Theory，有机化学中的前线轨道理论（Frontend Orbital Theory），等等。
 
-\subsection{画反应能量变化图}
+\subsection{用\textsf{endiagram}画反应能量变化图}
 \label{sec:energylevel}
 
 典型代表，就是物理化学中的反应焓变示意图，还有反应动力学（Kinetics）中，过渡态理论解释活化能的大小的示意图。
@@ -290,8 +292,7 @@ Clemens Niederberger为此写了一个\textsf{modiagram}宏包。他是这么表
 这里依然使用Clemens Niederberger（这货太有才了是不是）的\textsf{endiagram}宏包。
 
 \begin{dispListing}
-% 导言栏
-\usepackage{endiagram}  
+\usepackage{endiagram} % 导言栏使用  
 \end{dispListing}
 
 在该宏包基于\tikzlg{}，和Niederberger其它宏包类似，都提供进一步调用\tkznm{}代码的接口。利用提供的~\docAuxEnvironment{endiagram}~环境中，绘出能量状态伴随浓度、反应进度等的变化趋势，标出活化能$E_a$。
@@ -311,18 +312,20 @@ Clemens Niederberger为此写了一个\textsf{modiagram}宏包。他是这么表
 这一节介绍使用\textsf{pst-labo}绘制实验装置，它属于一个功能强大的绘图语言PSTricks下的一个子模块。
 
 \begin{dispListing}
-% 导言栏
+% 导言栏，XeLaTeX 编译时
 \usepackage{pstricks} % 引入 PSTricks 的基本宏包
 \usepackage{pst-labo} % 引入 pst-labo 实验室装置模块包
 \end{dispListing}
 
-需要注意的是，由于PSTricks完全基于一门叫“PostScript”的强大语言，因此需要调用一些图形驱动，一些情况下要做额外配置。上面的宏包引入命令仅适用于\hologo{XeLaTeX}编译的情况，如果是~\hologo{pdfLaTeX}~或~\hologo{LuaLaTeX}~需要给\textsf{pstricks}宏包加上\texttt{pdf}选项：
+需要注意的是，由于PSTricks完全基于一门叫“PostScript”的强大语言，因此需要调用一些图形驱动，一些情况下要做额外配置。上面的宏包引入命令仅适用于\hologo{XeLaTeX}编译的情况，系统会自动调用Ghostscript工具（一般装了\TeX{}发行版，都会自带）来处理相关的任务。但是如果使用~\hologo{pdfLaTeX}~或~\hologo{LuaLaTeX}~编译，需要给\textsf{pstricks}宏包加上\texttt{pdf}选项：
 
 \begin{dispListing}
+% 在使用 pdfLaTeX 或 LuaLaTeX 编译时，加“pdf”选项。
 \usepackage[pdf]{pstricks}
+\usepackage{pst-labo}  
 \end{dispListing}
 
-\noindent 并且在编译时使用~\texttt{-shell-escape}参数。所以使用\textsf{PSTricks}，目前来说还是在\hologo{XeLaTeX}下最为方便。
+\noindent 并且在编译时使用~\texttt{-shell-escape}参数——对于初学者来说，不了解命令行编译的原理，处理起来很麻烦。所以使用\textsf{PSTricks}，目前来说还是在\hologo{XeLaTeX}下最为方便。
 
 然后就可以愉快的画图了，PSTricks绘图无需任何专门的绘图环境，直接使用已经在子模块中定义好的图形代码：
 
@@ -352,15 +355,62 @@ Clemens Niederberger为此写了一个\textsf{modiagram}宏包。他是这么表
 % \pstDistillation
 % \end{dispExample}
 
-\section{处理有机化学反应}
+\subsection{用\textsf{ghsystem}宏包画有害警示图}
+
+
+
+\section{有机化学宏包汇总}
 \label{sec:organic}
 
-这里单独拉出一节来阐述
+这里单独拉出一节来阐述。很多人意识到了，这可能是整个化学日常研究工作中最麻烦的一块内容，相比手写化合物分子结构和反应机理。代码作图显得非常低效。
 
-\subsection{可选的宏包汇总}
-\label{sec:OrganSummary}
+\subsection{中流砥柱\textsf{chemfig}宏包}
+\label{sec:chemfig}
 
-首先介绍一下老牌的\XyMTeX{}宏包.
+
+
+\paragraph{用\textsf{mol2chemfig}工具生成\textsf{chemfig}代码}
+
+
+
+\subsection{打辅助的\textsf{mychemistry}宏包}
+\label{sec:mychemistry}
+
+这是Clemens Niederberger早期的作品，目前已经停止开发新功能，但依然做修复bug的维护。它利用\tikzlg{}的强大功能，提供一个画有机化学反应进程的绘图环境。当时\textsf{chemfig}宏包刚刚起步不久，并没有展现出多少优势。不过随着\textsf{chemfig} \textsf{v}1.0版本的发布，其简洁强大的命令，立刻受到化学\LaTeX{}使用者们的欢迎。\textsf{mychemstry}在这个背景下，逐渐式微。Niederberger调整了开发的方向，将其作为\textsf{chemfig}的外围工具，配合其使用。
+
+\textsf{mychemistry}将最基本的化合物绘图任务交给\textsf{chemfig}，提供一些额外的命令重新打造化学反应机理的组织方式，如~\docAuxCommand{reactant}，\docAuxCommand{arrow}~命令，一些绘图环境如~\docAuxEnvironment{rxn}，还有可以浮动的~\docAuxEnvironment{rxnscheme}~环境。另外有个比较有用的命令是创建反应机理的目录~\docAuxCommand{listof}\brackets{rxnfloat}\brackets{\meta{title}}。
+
+关于\textsf{mychemistry}更多内容，可以参见其手册，这里不再赘述。
+
+\subsection{老牌的\textsf{xymtex}宏包}
+\label{sec:xymtexIntro}
+
+将\TeX{}的排版功能应用到化学，很早就有人做出努力。这里首先介绍一下老牌的\XyMTeX{}宏包.这个宏包从90年代就由日本神奈川县的湘南化学信息学与数理化学研究所（Shonan Institute of Chemoinformatics and Mathematical Chemistry）的一位研究员Shinsaku Fujita开发。
+
+当时他在数学和化学跨学科领域进行研究.由于研究和发表内容的共组，很自然地接触到\TeX{}/\LaTeX{}处理大量数学公式，遗憾的是，当时却没有任何工具可以将分子式和反应机理等以矢量图的形式呈现出来，以至于Springer出版他自己的著作时，不得不手工拍照，插图。这使他萌生了开发化学结构式绘图宏包的想法。
+
+\XyMTeX{}宏包历史悠久，其诞生至今已经比现在大家用的~\LaTeXe{}~还要年长。宏包的设计非常全面严谨，基于IUPAC\footnote{即International Union of Pure and Applied Chemistry，国际纯粹与应用化学学会}~对有机化合物结构的系统命名法。能够绘制很复杂的反应机理。早期的版本（3.00之前的版本）基于~\LaTeX{}原生自带的~\docAuxEnvironment{picutre}~绘图环境，以及\textsf{epic}宏包对这个环境的扩展，功能有所限制。
+
+\begin{dispListing}
+\usepackage{xymtem} % TeX/LaTeX 兼容模式
+\end{dispListing}
+
+随后的版本（4.06之前的版本）基于PSTricks绘图语言，需要借助PostScript相关程序和驱动，反映在调用宏包的方式上，也有了区别。
+
+\begin{dispListing}
+\usepackage{xymtexps} % PostScript 兼容模式
+\end{dispListing}
+
+现在的用法，是使用PDF兼容模式，这个模式的绘图能力，基于目前在\LaTeX{}最为流行的绘图语言\tikzlg{}。
+
+\begin{dispListing}
+\usepacakge{xymtexpdf} % pdf 兼容模式
+\end{dispListing}
+
+三种不同的兼容模式，对应三个不同的~\docAuxCommand{usepackage}\brackets{\marg{package}}。
+
+这个宏包虽然强大（看看那780页手册，颤抖吧），但是使用起来，命令繁琐不直观，不是很容易上手。近几年维护更新不是很频繁。笔者最近发现，这个宏包目前在比较新的发行版下，和\textsf{fontspec}宏包有冲突，正在调研具体原因，希望能找到可行的方法。这里先略过代码示例。
+
 
 \section*{小结}
 \label{sec:conclusion}
@@ -376,7 +426,7 @@ Clemens Niederberger为此写了一个\textsf{modiagram}宏包。他是这么表
 
 
 
-\subsection*{关于\XyMTeX{}宏包手册} % \XyMTeX is not robust, so use \protect
+\subsection*{关于\textsf{xymtex}宏包手册} % \XyMTeX is not robust, so use \protect
 \label{sec:xymtexDoc}
 \XyMTeX{}宏包虽然一直被\TeX{} Live~收录，可以直接使用。奇怪的是，其用户手册居然没有被独立安装的\TeX{} Live~安装包所囊括。无奈只能手动下载安装，
 
