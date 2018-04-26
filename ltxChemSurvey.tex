@@ -326,31 +326,31 @@ Clemens Niederberger为此写了一个\textsf{modiagram}宏包。他是这么表
 
 然后就可以愉快的画图了，PSTricks绘图无需任何专门的绘图环境，直接使用已经在子模块中定义好的图形代码：
 
-\begin{dispExample}
-\psset{unit = 0.5cm,glassType = becher}
-\pstTubeEssais[etiquette]
-\pstTubeEssais[substance = \pstBullesChampagne,glassType=fioleJauge]
-\pstTubeEssais[substance = \pstFilaments{red},glassType = flacon]
-\pstTubeEssais[substance = \pstBilles,glassType = ballon]
-\pstEntonnoir[substance = \pstBULLES{white},glassType = erlen]
-\pstEprouvette[niveauLiquide2=100]
-\vspace{3ex} % 空开一段竖直距离
-\pstDosage[glassType = becher,phmetre = true]
-\end{dispExample}
+% \begin{dispExample}
+% \psset{unit = 0.5cm,glassType = becher}
+% \pstTubeEssais[etiquette]
+% \pstTubeEssais[substance = \pstBullesChampagne,glassType=fioleJauge]
+% \pstTubeEssais[substance = \pstFilaments{red},glassType = flacon]
+% \pstTubeEssais[substance = \pstBilles,glassType = ballon]
+% \pstEntonnoir[substance = \pstBULLES{white},glassType = erlen]
+% \pstEprouvette[niveauLiquide2=100]
+% \vspace{3ex} % 空开一段竖直距离
+% \pstDosage[glassType = becher,phmetre = true]
+% \end{dispExample}
 
 这个模块里可以做简单的瓶瓶罐罐，漏斗，滴管，量筒带搅拌磁子的搅拌器，喷灯，玻璃直行精馏柱等。
 
-\begin{dispExample}
-\psset{unit=0.5cm}
-\pstChauffageTube[%
-  becBunsen,
-  glassType=ballon,
-  niveauLiquide1=20,
-  aspectLiquide1=Diffusion,%
-  pince%
-]
-\pstDistillation
-\end{dispExample}
+% \begin{dispExample}
+% \psset{unit=0.5cm}
+% \pstChauffageTube[%
+%   becBunsen,
+%   glassType=ballon,
+%   niveauLiquide1=20,
+%   aspectLiquide1=Diffusion,%
+%   pince%
+% ]
+% \pstDistillation
+% \end{dispExample}
 
 \section{处理有机化学反应}
 \label{sec:organic}
