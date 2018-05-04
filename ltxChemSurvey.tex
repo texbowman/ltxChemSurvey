@@ -49,7 +49,7 @@
 
 
 
-\title{\textsf{\LaTeX}\heiti 化学宏包快速指南}
+\title{\textsf{\LaTeX}\heiti 化学宏包使用汇总}
 \author{\fangsong 鸣镝}
 \date{\oldstylenums{2018/04/23}}
 
@@ -148,13 +148,25 @@ MiK\TeX{}用户请使用其宏包管理器\textsf{Package Mananger (Admin)}联�
 \end{dispListing}
 它不仅提供可同时在数学环境内外用的命令~\docAuxCommand{SI}\brackets{\meta{number}}\brackets{\meta{unit}}，还提供大量有用的宏，这里只举很少的例子
 
+\begin{dispExample*}{sidebyside}
+% \quad 作用只是空开一点距离。
+\num{1.4e-64}\quad
+\ang{49}\quad
+\ang{30;15;27}\quad
+\si{m^{-2}}\quad
+\si{\mole\per\liter}\quad
+\SI{37}{\celsius}\quad
+\SI{5}{\angstrom}\quad
+\SI{3.1e-6}{\micro\meter}
+\end{dispExample*}
+
+实际的一个解题过程：
+
 \begin{dispExample}
-% 下面的 \quad 作用只是空开一点距离。
-\num{1.4e-64}\quad \ang{30;15;27}\quad \si{m^{-2}}\quad \SI{37}{\celsius}\quad \SI{5}{\angstrom}\quad \SI{3.1e-6}{\micro\meter}
 \[
   \Delta S = \dfrac{Q_r}{T} = \dfrac{\SI{5.74}{\kilo\joule}}{\SI{300}{K}} = \SI{19.2}{\joule\per\kelvin}
 \]
-这里也可以把答案写成单位间由乘积来连接的形式：
+这里也可以把答案写成单位间由乘积点来连接的形式：
 \SI[inter-unit-product = \ensuremath{{}\cdot{}}]{19.2}{\joule\per\kelvin}
 \end{dispExample}
 
@@ -166,6 +178,14 @@ MiK\TeX{}用户请使用其宏包管理器\textsf{Package Mananger (Admin)}联�
 \end{dispListing}
 
 然后每次用单位命令都会得到~\si[inter-unit-product = \ensuremath{{}\cdot{}}]{\joule\per\mole\per\kelvin}，这样的形式了。但还要注意，如果你使用\textsf{unicode-math}宏包为你的文档配置OpenType数学字体，这个middle dot的符号命令就是~\verb|\cdotp|，而不是~\verb|\cdot|，参见\textsf{unimath-symbols}文档。
+
+\textsf{siunitx}立足于简单易用，除了冗长的的单位宏命令（即反斜杠“\textbackslash{}”开头的单位命令），你可以用多种方式输入单位：
+
+\begin{dispExample}
+% \quad 作用仅是空开一点距离
+\si{kg/kmol}\quad \si{\kg/\kmol}\quad \si{kg/m^3}\quad \si{kg.m^{-3}}\quad
+\si{\umol/\uL}
+\end{dispExample}
 
 关于\textsf{siunitx}宏包更多的用法，请去阅读其用户手册。
 
