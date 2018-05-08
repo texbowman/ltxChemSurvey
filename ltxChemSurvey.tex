@@ -6,6 +6,8 @@
 
 \documentclass[a4paper,UTF8,zihao = -4]{ctexart} % Compile with xelatex before save your .tex file with UTF-8 encoding.
 
+\usepackage[DIV=12]{typearea} % Use typearea from KOMA-Script automatically set margin.
+
 \ctexset{abstractname = {简\quad 介}}
 
 
@@ -58,6 +60,7 @@
 \begin{document}
 
 \pagecolor{lightmilkyellow}
+\pagestyle{plain}
 
 \maketitle % make sure it after \title ,\author and \date
 
@@ -71,7 +74,7 @@
 
 对于\TeX{} Live和Mac\TeX{}用户，如果是最新，独立二进制安装版，已经选择完整安装（full）的用户已经在本地有了这些宏包；一开始选基本安装（basic）的用户，可以用宏包管理器\textsf{tlmgr}进行安装，具体用法可以去阅读\textsf{tlmgr}的使用手册。对于旧版本\TeX{} Live用户，如果只安装了基本的宏包，请上CTAN网站手动下载宏包并安装在TDS目录中。
 
-MiK\TeX{}用户请使用其宏包管理器\textsf{Package Mananger (Admin)}联网，选远程仓库镜像，搜索，下载，并安装这些宏包。MiK\TeX{}官网有介绍这些操作步骤。
+MiK\TeX{}用户请使用其宏包管理器\textsf{Package Manager (Admin)}联网，选远程仓库镜像，搜索，下载，并安装这些宏包。MiK\TeX{}官网有介绍这些操作步骤。
 
 本文假设你了解基本的~\LaTeXe{}~用法，可以独立编译制作简单的文档。下面的示例代码中有中文作为标签，因此这里也假设你知道中文在~\LaTeXe{}~中的支持方式。
 
@@ -286,7 +289,7 @@ Clemens Niederberger为此写了一个\textsf{modiagram}宏包。他是这么表
 下面简单列举一个使用方法.分子轨道的绘图代码都放在~\docAuxEnvironment{MOdiagram}~环境中（别忘了\LaTeX{}中大小写敏感，计算机语言要注意拼写正确）使用。
 
 \begin{dispExample}
-\MOsetup{style = fancy, distance = 6.5cm, AO-width = 15pt, labels}
+\MOsetup{style = fancy, distance = 8.0cm, AO-width = 15pt, labels}
 \begin{MOdiagram}
   \atom[N]{left}{%
     2p = {0;up,up,up}%
@@ -388,8 +391,14 @@ Clemens Niederberger为此写了一个\textsf{modiagram}宏包。他是这么表
 \label{sec:chemfig}
 
 
+\subsection{分子式代码自动输出}
+\label{sec:OrgCompCodeOutput}
+
 
 \paragraph{用\textsf{mol2chemfig}工具生成\textsf{chemfig}代码}
+
+
+\paragraph{\textsf{mcf2graph}输出分子式代码}
 
 
 
